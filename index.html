@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1f3d34" />
+  <title>Passage Clair — Déménagement à Lyon</title>
+  <meta name="description" content="Déménagement simple et transport de meuble à Lyon. Choisissez les pièces, indiquez la distance, puis demandez un devis personnalisé." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f3d34'/%3E%3Ccircle cx='9' cy='16' r='2.4' fill='%23f6f1e7'/%3E%3Ccircle cx='23' cy='16' r='2.4' fill='%23e7a07a'/%3E%3Cpath d='M11.5 16h9' stroke='%23f6f1e7' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+  <script id="site-config" type="application/json">
+    {
+      "nomComplet": "Passage Clair",
+      "activite": "Déménagement et transport de meubles",
+      "telephoneAffiche": "04 72 18 40 25",
+      "email": "bonjour@passageclair.fr",
+      "ville": "Lyon et communes voisines",
+      "adresse": "14 rue Burdeau, 69001 Lyon",
+      "siret": "849 220 431 00017",
+      "horaires": "Lundi au samedi, 8 h – 19 h",
+      "bareme": {
+        "demenagement": {
+          "forfait": 160,
+          "euroParM2": 18,
+          "euroParKm": 1.5,
+          "minimum": 290
+        },
+        "transport": {
+          "forfait": 80,
+          "euroParM2": 45,
+          "euroParKm": 1.7,
+          "minimum": 150
+        },
+        "marge": 0.12
+      }
+    }
+  </script>
+</head>
+<body id="haut">
+  <a class="lien-evitement" href="#estimation">Aller à l’estimation</a>
+
+  <header class="entete">
+    <div class="enveloppe entete-ligne">
+      <a class="logo" href="#haut">
+        <svg class="logo-marque" viewBox="0 0 28 28" width="28" height="28" aria-hidden="true">
+          <rect width="28" height="28" rx="8" fill="currentColor"/>
+          <circle cx="8" cy="14" r="2.2" fill="#f6f1e7"/>
+          <circle cx="20" cy="14" r="2.2" fill="#e7a07a"/>
+          <path d="M10 14h8" stroke="#f6f1e7" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="js-nom">Passage Clair</span>
+      </a>
+      <nav class="nav" aria-label="Pages">
+        <a href="#services">Prestations</a>
+        <a href="#maison">La maison</a>
+        <a href="#questions">Questions</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="bouton bouton-compact lien-tel" href="tel:+33472184025">04 72 18 40 25</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="enveloppe hero-grille">
+        <div class="hero-texte">
+          <p class="surtitre">Déménagement simple · Transport de meuble</p>
+          <h1>Choisissez les pièces. <em>Le devis se confirme avec nous.</em></h1>
+          <p class="chapo">Déménagement simple ou transport de meuble, depuis Lyon. Cochez ce qu’il faut déplacer, indiquez la distance&nbsp;: une fourchette s’affiche, puis la demande part pour un devis personnalisé.</p>
+          <ul class="reperes">
+            <li>Pièces au choix, une par une</li>
+            <li>Fourchette avant l’envoi</li>
+            <li>Devis confirmé par Passage Clair</li>
+          </ul>
+        </div>
+
+        <form class="estimateur" id="estimation" novalidate>
+          <ol class="indicateurs">
+            <li><button type="button" data-aller="0" aria-current="step">Prestation</button></li>
+            <li><button type="button" data-aller="1" disabled>Pièces</button></li>
+            <li><button type="button" data-aller="2" disabled>Trajet</button></li>
+            <li><button type="button" data-aller="3" disabled>Devis</button></li>
+          </ol>
+
+          <p class="alerte" id="alerte" role="alert" hidden></p>
+          <p class="annonce" id="annonce" aria-live="polite"></p>
+
+          <div data-step-panel="0">
+            <h2>Quelle prestation&nbsp;?</h2>
+            <p class="aide">Le barème n’est pas le même pour un logement entier et pour un meuble.</p>
+            <div class="choix-prestation">
+              <button type="button" class="carte-choix" data-service="demenagement" aria-pressed="false">
+                <span class="carte-kicker">Logement</span>
+                <span class="carte-titre">Déménagement simple</span>
+                <span class="carte-texte">Vous indiquez les pièces du logement à quitter.</span>
+              </button>
+              <button type="button" class="carte-choix" data-service="transport" aria-pressed="false">
+                <span class="carte-kicker">Meuble</span>
+                <span class="carte-titre">Transport de meuble</span>
+                <span class="carte-texte">Vous indiquez les meubles à transporter, un par un.</span>
+              </button>
+            </div>
+          </div>
+
+          <div data-step-panel="1" hidden>
+            <h2 id="titre-pieces">Pièces à déménager</h2>
+            <p class="aide" id="aide-pieces"></p>
+            <ul class="liste-pieces" id="liste-pieces"></ul>
+            <p class="aide" id="resume-pieces"></p>
+          </div>
+
+          <div data-step-panel="2" hidden>
+            <h2>Distance</h2>
+            <p class="aide">Distance routière entre le départ et l’arrivée. Vous pouvez la saisir, ou la faire calculer.</p>
+            <div class="champ">
+              <label for="km">Kilomètres</label>
+              <div class="saisie-unite">
+                <input id="km" name="km" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 25" />
+                <span aria-hidden="true">km</span>
+              </div>
+            </div>
+            <details class="calcul-trajet">
+              <summary>Calculer à partir des communes</summary>
+              <div class="champ">
+                <label for="depart">Départ</label>
+                <input id="depart" name="depart" type="text" autocomplete="address-level2" placeholder="Lyon, ou une adresse" />
+              </div>
+              <div class="champ">
+                <label for="arrivee">Arrivée</label>
+                <input id="arrivee" name="arrivee" type="text" autocomplete="address-level2" placeholder="Bordeaux, Genève…" />
+              </div>
+              <button type="button" class="bouton bouton-secondaire" id="calculer-km">Calculer l’itinéraire</button>
+              <p class="aide" id="statut-trajet"></p>
+            </details>
+          </div>
+
+          <div data-step-panel="3" hidden>
+            <h2>Devis personnalisé</h2>
+            <p class="prestation-retenue" id="prestation-retenue"></p>
+            <div class="fourchette" id="fourchette">
+              <p>
+                <span class="fourchette-label">De</span>
+                <strong id="prix-bas"></strong>
+              </p>
+              <p>
+                <span class="fourchette-label">à</span>
+                <strong id="prix-haut"></strong>
+              </p>
+            </div>
+            <p class="base-calcul" id="base-calcul"></p>
+            <dl class="detail" id="detail"></dl>
+            <ul class="notes" id="notes"></ul>
+            <p class="mention">Estimation non contractuelle. Péages, accès difficile et volume réel peuvent modifier le prix. Le déménageur confirme.</p>
+
+            <div class="interlocuteur">
+              <p class="surtitre">Le déménageur</p>
+              <p class="js-nom interlocuteur-nom">Passage Clair</p>
+              <p><a class="lien-tel" href="tel:+33472184025">04 72 18 40 25</a></p>
+              <p><a class="lien-email" href="mailto:bonjour@passageclair.fr">bonjour@passageclair.fr</a></p>
+            </div>
+
+            <div class="champs champs-deux">
+              <div class="champ">
+                <label for="nom">Votre nom</label>
+                <input id="nom" name="nom" type="text" autocomplete="name" />
+              </div>
+              <div class="champ">
+                <label for="telephone">Téléphone</label>
+                <input id="telephone" name="telephone" type="tel" autocomplete="tel" />
+              </div>
+              <div class="champ">
+                <label for="email">E-mail <span class="facultatif">facultatif</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" />
+              </div>
+              <div class="champ">
+                <label for="date">Date souhaitée <span class="facultatif">facultatif</span></label>
+                <input id="date" name="date" type="date" />
+              </div>
+            </div>
+            <div class="champ">
+              <label for="message">Précisions <span class="facultatif">facultatif</span></label>
+              <textarea id="message" name="message" rows="3" maxlength="1000" placeholder="Étage, ascenseur, contraintes d’accès…"></textarea>
+            </div>
+
+            <div class="actions-envoi">
+              <button type="button" class="bouton" id="envoyer-email">Demander un devis personnalisé</button>
+              <a class="bouton bouton-secondaire" id="appeler" href="tel:+33472184025">Appeler</a>
+              <a class="bouton bouton-secondaire" id="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <button type="button" class="bouton bouton-texte" id="copier">Copier le récapitulatif</button>
+            </div>
+            <p class="aide" id="statut-envoi" role="status"></p>
+          </div>
+
+          <div class="pied-estimateur">
+            <button type="button" class="bouton bouton-texte" id="retour" hidden>Retour</button>
+            <button type="button" class="bouton" id="continuer">Continuer</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="bandeau">
+      <div class="enveloppe etapes">
+        <article>
+          <span>01</span>
+          <h2>Choisir</h2>
+          <p>Déménagement simple d’un logement, ou transport d’un ou plusieurs meubles.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Chiffrer</h2>
+          <p>Les pièces choisies et la distance donnent une fourchette indicative.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Écrire</h2>
+          <p>La demande part à Passage Clair pour un devis personnalisé.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="enveloppe">
+        <p class="surtitre">Prestations</p>
+        <h2 class="titre-section">Deux façons de bouger, un même interlocuteur.</h2>
+        <div class="grille-services">
+          <article class="carte-service">
+            <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+              <path d="M6 14.5 16 6l10 8.5V26H6V14.5Z"/>
+              <path d="M13 26v-7h6v7"/>
+            </svg>
+            <h3>Déménagement simple</h3>
+            <p>Le contenu d’un logement, du départ à l’arrivée. Vous choisissez les pièces concernées, puis la distance.</p>
+            <button type="button" class="bouton bouton-secondaire" data-ouvrir="demenagement">Estimer un déménagement</button>
+          </article>
+          <article class="carte-service">
+            <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+              <path d="M7 12h18v13H7z"/>
+              <path d="M7 12 16 7l9 5"/>
+              <path d="M16 7v18"/>
+            </svg>
+            <h3>Transport de meuble</h3>
+            <p>Un canapé, une armoire, ou plusieurs meubles, sans vider un logement. Vous les choisissez dans la liste.</p>
+            <button type="button" class="bouton bouton-secondaire" data-ouvrir="transport">Estimer un transport</button>
+          </article>
+        </div>
+        <p class="mention mention-large">La fourchette couvre la prise en charge, une surface déduite des pièces choisies, et le trajet. Elle ne couvre pas les péages ni les accès difficiles. Le devis personnalisé les confirme.</p>
+      </div>
+    </section>
+
+    <section class="section" id="maison">
+      <div class="enveloppe maison">
+        <p class="surtitre">La maison</p>
+        <h2 class="titre-section">Un déménageur, à Lyon.</h2>
+        <div class="grille-maison">
+          <p>Passage Clair déplace un logement entier ou seulement quelques meubles. L’équipe part de l’atelier du 1<sup>er</sup> arrondissement, du lundi au samedi.</p>
+          <ul class="reperes">
+            <li>14 rue Burdeau, 69001 Lyon</li>
+            <li>Lyon et communes voisines</li>
+            <li>04 72 18 40 25</li>
+            <li>bonjour@passageclair.fr</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-questions" id="questions">
+      <div class="enveloppe questions">
+        <p class="surtitre">Questions</p>
+        <h2 class="titre-section">Avant d’envoyer la demande.</h2>
+        <div class="faq">
+          <details>
+            <summary>Cette estimation est-elle un devis&nbsp;?</summary>
+            <p>Non. C’est une fourchette calculée avec le barème du site. Le déménageur confirme le prix après avoir pris connaissance de l’accès, du volume réel et de la date.</p>
+          </details>
+          <details>
+            <summary>Comment le prix est-il calculé&nbsp;?</summary>
+            <p>Chaque pièce de la liste correspond à une surface indicative. Le total, plus la distance, donne la fourchette. Le devis personnalisé confirme le volume réel, l’accès et la date.</p>
+          </details>
+          <details>
+            <summary>Je ne connais pas la distance.</summary>
+            <p>Indiquez la commune ou l’adresse de départ et d’arrivée. Le site interroge un itinéraire routier OpenStreetMap, que vous pouvez corriger. Vous pouvez aussi saisir les kilomètres directement.</p>
+          </details>
+          <details>
+            <summary>Que se passe-t-il après l’envoi&nbsp;?</summary>
+            <p>Vous joignez le déménageur avec le récapitulatif. Il revient vers vous pour confirmer le créneau et le prix. Aucun paiement n’est demandé sur ce site.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied" id="contact">
+    <div class="enveloppe pied-grille">
+      <div>
+        <p class="logo-pied js-nom">Passage Clair</p>
+        <p class="js-activite">Déménagement et transport de meubles</p>
+      </div>
+      <div>
+        <p><a class="lien-tel" href="tel:+33472184025">04 72 18 40 25</a></p>
+        <p><a class="lien-email" href="mailto:bonjour@passageclair.fr">bonjour@passageclair.fr</a></p>
+        <p class="js-horaires">Lundi au samedi, 8 h – 19 h</p>
+      </div>
+      <div>
+        <p class="js-adresse">14 rue Burdeau, 69001 Lyon</p>
+        <p class="js-ville">Lyon et communes voisines</p>
+        <p class="js-siret">849 220 431 00017</p>
+      </div>
+    </div>
+    <div class="enveloppe pied-legal">
+      <p>Éditeur&nbsp;: <span class="js-nom">Passage Clair</span>, <span class="js-adresse">14 rue Burdeau, 69001 Lyon</span>. SIRET <span class="js-siret">849 220 431 00017</span>. Site de démonstration, hébergé en local.</p>
+      <p>Pas de cookies de suivi. L’itinéraire, s’il est demandé, interroge les services publics Nominatim et OSRM (OpenStreetMap).</p>
+      <p>© <span id="annee"></span> <span class="js-nom">Passage Clair</span></p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="sans-script">Activez JavaScript pour calculer une estimation et préparer la demande.</p>
+  </noscript>
+  <script src="app.js"></script>
+</body>
+</html>
